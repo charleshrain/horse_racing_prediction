@@ -52,5 +52,5 @@ for i in range(1,7):
     upcoming = upcoming.append(df[0])
 
 
-# driver.quit()
+driver.quit()
 
