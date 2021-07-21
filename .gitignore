@@ -142,3 +142,6 @@ db_dowload/*
 
 #zip files
 .zip
+
+#data folder
+data/*
