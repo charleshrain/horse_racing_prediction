@@ -1,13 +1,7 @@
 import subprocess
-
-
-# subprocess.run(["mkdir","-p", "db_download"])
-# subprocess.run(["cd", "db_download" ])
-# subprocess.run(["wget", "http://www.travstat.se/travdata2002-2020.zip"])
-# subprocess.run(["unzip", "*" ])
-# subprocess.run(["rm", "*.zip" ])
-
+from typing_extensions import Concatenate
 import urllib3
+
 http = urllib3.PoolManager()
 r = http.request('GET', "http://www.travstat.se/travdata2002-2020.zip", preload_content=False)
 
@@ -25,17 +19,22 @@ import zipfile
 with zipfile.ZipFile("./trav.zip", 'r') as zip_ref:
     zip_ref.extractall("./data/")
 
+with zipfile.ZipFile("./data/travdata2002.zip", 'r') as zip_ref:
+    zip_ref.extractall("./data/")
 
 
 # # Copy postgres scripts into folder before running
 
-
-# # delete unneeded files
-# find ./racedata -type f -not \( -name  "lopp.txt" -o -name "tvl.txt" -o -name "prog.txt" -o -name "klass.txt" -o -name "variab.txt" \) | xargs rm
-
+# delete uneeded files
 import os
-for filename in os.listdir('dirname'):
-     callthecommandhere(blablahbla, filename, foo)
+
+prefix = ["lopp.", "tvl.", "prog.", "klass.", "variab." ]
+
+for file in os.listdir('./data/'):
+    if not file.startswith(tuple(prefix)):
+        filename = "./data/" + file
+        os.remove(filename)
+     
 
 # # check if textfiles are utf-8, if not: use iconv to convert (for loop over .txt files in dir)
 # for f in $DIR/racedata/*
@@ -43,12 +42,16 @@ for filename in os.listdir('dirname'):
 #         iconv -f ISO-8859-1 -t UTF-8 "$f" >  "${f%.txt}.utf" 
 # done
 
-sourceEncoding = "iso-8859-1"
-targetEncoding = "utf-8"
-source = open("source")
-target = open("target", "w")
 
-target.write(unicode(source.read(), sourceEncoding).encode(targetEncoding))
+for file in os.listdir('./data/'):
+    file = "./data/" + file
+    with open(file, 'r', encoding='ISO-8859-1') as f:
+        text = f.read()
+
+    with open(file, 'w', encoding='utf8') as f:
+        f.write(text)
+
+
 
 
 # rm $DIR/racedata/*.txt
