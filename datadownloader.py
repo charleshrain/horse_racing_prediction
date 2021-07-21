@@ -53,18 +53,41 @@ for file in os.listdir('./data/'):
 
 
 
-
-# rm $DIR/racedata/*.txt
-
+#reformat nulls
 # for i in $DIR/racedata/*
 # do
 #     sed 's/\\N/NULL/g' "$i" > "${i%.utf}.txt"
 #     # use tr -D "\\N"
 # done
 
-# rm $DIR/racedata/*.utf
+import re as re
+for file in os.listdir('./data/'):
+    file = "./data/" + file
+    [re.findall(r's/\\N/NULL/g',line) 
+            for line in open(file)]
 
-# echo done
+
+import psycopg2
+
+import psycopg2
+
+con = psycopg2.connect(database="postgres", user="postgres", password="", host="127.0.0.1", port="5432")
+
+print("Database opened successfully")
+
+cur = con.cursor()
+cur.execute('''CREATE TABLE STUDENT
+      (ADMISSION INT PRIMARY KEY     NOT NULL,
+      NAME           TEXT    NOT NULL,
+      AGE            INT     NOT NULL,
+      COURSE        CHAR(50),
+      DEPARTMENT        CHAR(50));''')
+print("Table created successfully")
+
+con.commit()
+con.close()
+
+https://stackabuse.com/working-with-postgresql-in-python
 
 # # create tables in postgres
 # psql -U postgres -d postgres -a -f ETL.sql 
