@@ -67,7 +67,6 @@ for file in os.listdir('./data/'):
             for line in open(file)]
 
 
-import psycopg2
 
 import psycopg2
 
@@ -87,7 +86,7 @@ print("Table created successfully")
 con.commit()
 con.close()
 
-https://stackabuse.com/working-with-postgresql-in-python
+# https://stackabuse.com/working-with-postgresql-in-python
 
 # # create tables in postgres
 # psql -U postgres -d postgres -a -f ETL.sql 
