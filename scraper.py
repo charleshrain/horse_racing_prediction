@@ -9,10 +9,10 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
 options = Options()
-options.headless = True
+options.add_argument("--headless")
 options.add_argument("--window-size=1680,1050")
 
-driver = webdriver.Chrome(ChromeDriverManager().install())
+driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
 driver.get('https://www.atg.se/spel/V75')  # get page pertaining to correct race type
 
