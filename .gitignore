@@ -141,7 +141,7 @@ cython_debug/
 db_dowload/*
 
 #zip files
-.zip
+**/.zip
 
 #data folder
 data/*
