@@ -27,26 +27,32 @@ def decide_class(data):
                'elitlopp': 'E',
                'flerklasslopp': 'F',
                'gulddivisionen': 'G',
-               'kallblodslopp': 'K',
+               'kallblod': 'K',
                'klass1': '1',
+               'klassi,': '1',
                'klass2': '2',
+               'klassii,': '2',
                'rlingslopp': 'L',
                'silverdivisionen': 'S',
                'stodivisionen': 'Q',
                'stoeliten': 'X',
+               'diamant': 'X',
                'utomv5': 'U',
                'Vv5lopp': 'V'}
 
     for classkey, symbol in classes.items():
         if classkey in data:
             return symbol
+        # elif classkey not in data:
+        #     return 'S'
 
 
 def decide_distance(data):
 
     data = str(data).lower().replace(" ", "")
 
-    distances = {'1650': 'K',
+    distances = {'1640': 'K',
+                 '1650': 'K',
                  '1609': 'K',
                  '2100': 'M',
                  '2140': 'M',
@@ -90,4 +96,3 @@ for i in range(1, 8):
     races.loc[i] = [i, klass, distans, startmode]
 
 driver.quit()
-
