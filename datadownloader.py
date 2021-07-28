@@ -26,7 +26,6 @@ finally:
     r.release_conn()
 
 
-
 with zipfile.ZipFile("v75flat.zip", 'r') as zip_ref:
     zip_ref.extractall("./data/")
 

@@ -1,11 +1,5 @@
 
-from numpy import genfromtxt
-from time import time
-from datetime import datetime
-from sqlalchemy import Column, Integer, Float, Date, String, VARCHAR
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import pandas as pd
 
 columns = [
@@ -39,10 +33,7 @@ columns = [
 'jockeyrank'
 ]
     
-
-    
 engine = create_engine('postgresql://postgres:postgres@localhost:5432/trav')
-
 
 file_name = 'data/v75flat.csv'
 df = pd.read_csv(file_name)
