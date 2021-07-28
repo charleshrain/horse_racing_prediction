@@ -8,8 +8,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import pandas as pd
 
-# https://chartio.com/resources/tutorials/how-to-execute-raw-sql-in-sqlalchemy/
-
 columns = [
 'horseid',
 'datum',
@@ -41,10 +39,10 @@ columns = [
 'jockeyrank'
 ]
     
-# Base = declarative_base()
+
     
 engine = create_engine('postgresql://postgres:postgres@localhost:5432/trav')
-# Base.metadata.create_all(engine)
+
 
 file_name = 'data/v75flat.csv'
 df = pd.read_csv(file_name)

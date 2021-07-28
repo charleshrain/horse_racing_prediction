@@ -3,14 +3,13 @@ import zipfile
 import os
 import http
 
-try:
-
-    if os.path.exists('v75flat.zip'):
+if os.path.exists('v75flat.zip'):
         os.remove('v75flat.zip')
 
-    # if os.path.exists('./data/*'):
-    #     os.remove('./data/*')
+if os.path.exists('data/v75flat.csv'):
+        os.remove('data/v75flat.csv')
 
+try:
     http = urllib3.PoolManager()
     r = http.request('GET', "http://trottingproject.s3.amazonaws.com/v75flat.zip", preload_content=False)
 
@@ -30,5 +29,7 @@ finally:
 
 with zipfile.ZipFile("v75flat.zip", 'r') as zip_ref:
     zip_ref.extractall("./data/")
+
+
 
 

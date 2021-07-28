@@ -143,3 +143,4 @@ cython_debug/
 #data folder
 data/*
 test.py
+v75flat.zip
