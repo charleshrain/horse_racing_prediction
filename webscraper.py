@@ -15,13 +15,9 @@ options.add_argument("--window-size=1680,1050")
 driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
 
 driver.get('https://www.atg.se/spel/V75')  # get page pertaining to correct race type
-
 driver.find_element_by_xpath('//*[@id="onetrust-accept-btn-handler"]').click()  # cookies popup
-
 driver.refresh()
-
 driver.maximize_window()
-
 driver.find_element_by_xpath(
     '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/button[2]').click()  # customize race display info
 
@@ -43,7 +39,7 @@ driver.find_element_by_xpath(
 
 upcoming = pd.DataFrame()
 
-for i in range(1,7):
+for i in range(1,8):
 
     df = pd.read_html(driver.find_element_by_xpath('//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[' + str(i) +']/div/div/table').get_attribute("outerHTML"))
 
