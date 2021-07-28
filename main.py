@@ -1,25 +1,25 @@
-import numpy as np
-import matplotlib.pyplot as plt
-N = 50
-x = np.random.rand(N)
-y = np.random.rand(N)
-colors = np.random.rand(N)
-area = np.pi * (15 * np.random.rand(N))**2  # 0 to 15 point radii
-plt.scatter(x, y, s=area, c=colors, alpha=0.5)
-plt.show()
 
-X = np.linspace(-np.pi, np.pi, 256,endpoint=True)
-C,S = np.cos(X), np.sin(X)
+def main():
+ 
+    print("WELCOME TO A SIMPLE MENSURATION PROGRAM")
 
-plt.plot(X, C, color="blue", linewidth=2.5, linestyle="-")
-plt.plot(X, S, color="red", linewidth=2.5, linestyle="-")
-
-plt.xlim(X.min()*1.1, X.max()*1.1)
-plt.xticks([-np.pi, -np.pi/2, 0, np.pi/2, np.pi],
-           [r'$-\pi$', r'$-\pi/2$', r'$0$', r'$+\pi/2$', r'$+\pi$'])
-
-plt.ylim(C.min()*1.1,C.max()*1.1)
-plt.yticks([-1, 0, +1],
-           [r'$-1$', r'$0$', r'$+1$'])
-
-plt.show()
+    while True:  
+        print("\nMAIN MENU")  
+        print("1. Calculate Parameter")  
+        print("2. Calculate Area")  
+        print("3. Exit")  
+        choice1 = int(input("Enter the Choice: ")) 
+        
+        if choice1 == 1:  
+            print("1")
+        
+        elif choice1 == 2:  
+            print("1")
+        elif choice1 == 3:
+            break
+        else:  
+            print("Oops! Incorrect Choice.")  
+ 
+ 
+if __name__ == "__main__":
+    main()
