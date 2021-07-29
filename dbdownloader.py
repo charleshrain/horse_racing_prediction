@@ -54,4 +54,5 @@ class downloader:
             with zipfile.ZipFile("v75flat.zip", 'r') as zip_ref:
                 print("Extracting...\n")
                 zip_ref.extractall("./data/")
+
                 

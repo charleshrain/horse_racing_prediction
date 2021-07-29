@@ -1,4 +1,7 @@
+from racewebscraper import racescraper
 from dbdownloader import downloader
+from dbetl import dbimport
+from webscraper import webscraper
 import sys
 sys.path.append(".")
 
@@ -11,8 +14,11 @@ def main():
     while True:
         print("\nMAIN MENU")
         print("1. Download data")
-        print("2. Do something")
-        print("3. Exit")
+        print("2. Import data to database")
+        print("3. webscrape")
+        print("4. ravescrape")
+        print("5. Exit")
+
         
         
         try: 
@@ -27,9 +33,17 @@ def main():
             downloader.extract_zip()
 
         elif choice1 == 2:
-            print("\nCALCULATE AREA")
-
+            try:
+                dbimport.import_data()
+            except:
+                print("No databas connected")
         elif choice1 == 3:
+            upcoming = webscraper.scrape()
+        
+        elif choice1 == 4:
+            races = racescraper.racescrape()
+
+        elif choice1 == 5:
             break
 
         else:
