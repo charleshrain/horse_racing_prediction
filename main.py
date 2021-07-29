@@ -1,25 +1,40 @@
+from dbdownloader import downloader
+import sys
+sys.path.append(".")
 
 def main():
- 
-    print("WELCOME TO A SIMPLE MENSURATION PROGRAM")
+    
+    
 
-    while True:  
-        print("\nMAIN MENU")  
-        print("1. Calculate Parameter")  
-        print("2. Calculate Area")  
-        print("3. Exit")  
-        choice1 = int(input("Enter the Choice: ")) 
+    print("Calculate probability of winning\n")
+
+    while True:
+        print("\nMAIN MENU")
+        print("1. Download data")
+        print("2. Do something")
+        print("3. Exit")
         
-        if choice1 == 1:  
-            print("1")
         
-        elif choice1 == 2:  
-            print("1")
+        try: 
+            choice1 = int(input("Enter the Choice:"))
+        except ValueError:
+            print("That's not an int!")
+            continue
+
+        if choice1 == 1:
+            downloader.cleanup()
+            downloader.s3_download()
+            downloader.extract_zip()
+
+        elif choice1 == 2:
+            print("\nCALCULATE AREA")
+
         elif choice1 == 3:
             break
-        else:  
-            print("Oops! Incorrect Choice.")  
- 
- 
+
+        else:
+            print("Oops! Incorrect Choice.")
+            
 if __name__ == "__main__":
-    main()
+        main()
+
