@@ -23,3 +23,12 @@
 #            [r'$-1$', r'$0$', r'$+1$'])
 
 # plt.show()
+
+# create connection
+# for every race
+#  quuery database for relevant historical race data
+# upsample data
+# split data, ensuring equal ratio win/lose
+# tune model parameters
+# create models
+# create forecasts

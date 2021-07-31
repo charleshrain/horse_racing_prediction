@@ -21,6 +21,7 @@ class racescraper:
         driver.find_element_by_xpath('//*[@id="onetrust-accept-btn-handler"]').click()
         driver.refresh()
         driver.maximize_window()
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
 
         def decide_class(data):
@@ -89,15 +90,29 @@ class racescraper:
 
 
         races = pd.DataFrame(columns=['race', 'class', 'distance', 'start'])
-
-        for i in range(1, 8):
+        
+        
+        #  race 1 to 6
+        for i in range(1, 7):
             klass = decide_class(driver.find_element_by_xpath(
                 '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[1]/span[3]').get_attribute("innerHTML"))
+            
             distans = decide_distance(driver.find_element_by_xpath(
                 '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
+           
             startmode = decide_startmode(driver.find_element_by_xpath(
                 '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
             races.loc[i] = [i, klass, distans, startmode]
+            
+        # race 7
+        klass = decide_class(driver.find_element_by_xpath(
+            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[7]/div/div/div[2]/div[1]/div[1]/div/div[2]/div[1]/span[3]').get_attribute("innerHTML"))
+        distans = decide_distance(driver.find_element_by_xpath(
+            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[7]/div/div/div[2]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
+        startmode = decide_startmode(driver.find_element_by_xpath(
+            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[7]/div/div/div[2]/div[1]/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
+        races.loc[7] = [7, klass, distans, startmode]
+        
 
         driver.quit()
         return races

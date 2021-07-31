@@ -16,7 +16,7 @@ def main():
         print("1. Download data")
         print("2. Import data to database")
         print("3. webscrape")
-        print("4. ravescrape")
+        print("4. racescrape")
         print("5. Exit")
 
         
