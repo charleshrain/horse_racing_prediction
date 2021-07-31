@@ -24,7 +24,7 @@ def main():
         
         
         try: 
-            choice1 = int(input("Enter the Choice:"))
+            choice1 = int(input("Enter the Choice: "))
         except ValueError:
             print("That's not an int!")
             continue

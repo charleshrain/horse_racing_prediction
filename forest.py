@@ -1,6 +1,7 @@
 import sqlalchemy as db
 import pandas as pd
 from sqlalchemy.engine.base import Transaction
+from sklearn.utils import resample
 
 
 class forest:
@@ -20,5 +21,16 @@ class forest:
 
             q = "select * from v75flat where division = '" + clas + \
                 "' and distans = '" + dist + "' and startsatt = '" + strt + "'"
+                
             table = pd.read_sql(q, connection)
-            # print(table)
+            
+            table_majority = table[table.won==0]
+            table_minority = table[table.won==1]
+            
+            table_minority_upsampled = resample(table_minority, 
+                                 replace=True,     # sample with replacement
+                                 n_samples=len(table_majority.index),    # to match majority class
+                                 random_state=123) # reproducible results
+            
+            table_upsampled = pd.concat([table_majority, table_minority_upsampled])
+            print(table_minority_upsampled)
