@@ -2,6 +2,7 @@ from racewebscraper import racescraper
 from dbdownloader import downloader
 from dbetl import dbimport
 from webscraper import webscraper
+from forest import forest
 import sys
 sys.path.append(".")
 
@@ -17,7 +18,8 @@ def main():
         print("2. Import data to database")
         print("3. webscrape")
         print("4. racescrape")
-        print("5. Exit")
+        print("5. Forest")
+        print("6. Exit")
 
         
         
@@ -42,8 +44,13 @@ def main():
         
         elif choice1 == 4:
             races = racescraper.racescrape()
-
+            print(races)
+            
         elif choice1 == 5:
+            ret = forest.rforest(races, upcoming)
+            print(ret)
+
+        elif choice1 == 6:
             break
 
         else:

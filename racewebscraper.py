@@ -104,7 +104,7 @@ class racescraper:
                 '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
             races.loc[i] = [i, klass, distans, startmode]
             
-        # race 7
+        # race 7 (change to lambda)
         klass = decide_class(driver.find_element_by_xpath(
             '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[7]/div/div/div[2]/div[1]/div[1]/div/div[2]/div[1]/span[3]').get_attribute("innerHTML"))
         distans = decide_distance(driver.find_element_by_xpath(
