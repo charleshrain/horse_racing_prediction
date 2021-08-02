@@ -22,12 +22,12 @@ class forest:
             dst = races['distance'][i]
             strt = races['start'][i]
 
-            q = "select  won, winperccurrent, winsperc, placep, mintid, verklspar, case when framspar = 'FS' then 1 else 0 end as framspar, ownerwinperc, moneyrank, streckrank, betperc, trainerwinperc, pointsperc, jockeyrank  from v75flat where division = '" + cl + \
+            q = "select  won, winperccurrent, winsperc, placep, mintid, verklspar, ownerwinperc, moneyrank, streckrank, betperc, trainerwinperc, pointsperc, jockeyrank  from v75flat where division = '" + cl + \
                 "' and distans = '" + dst + "' and startsatt = '" + strt + "'"
 
             table = pd.read_sql(q, connection)
             
-            table.dropna
+            table = table.dropna(axis=1)
 
             x_train, x_test, y_train, y_test = train_test_split(
                 table.loc[:, table.columns != 'won'], table['won'], test_size=0.25, random_state=42, stratify=table['won'])
