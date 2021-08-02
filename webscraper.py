@@ -54,4 +54,9 @@ class webscraper:
 
         driver.quit()
         return upcoming
+    
+    
+    @classmethod
+    def cleanscraped(cls, upcoming):
+        pass
 
