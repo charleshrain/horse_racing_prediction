@@ -4,10 +4,10 @@ from dbetl import dbimport
 from webscraper import webscraper
 from forest import forest
 import sys
+import pandas as pd
 sys.path.append(".")
 
 def main():
-    
     
 
     print("Calculate probability of winning\n")
@@ -44,10 +44,10 @@ def main():
         
         elif choice1 == 4:
             races = racescraper.racescrape()
-            print(races)
             
         elif choice1 == 5:
             ret = forest.rforest(races, upcoming)
+            pd.set_option('display.max_rows', None)
             print(ret)
 
         elif choice1 == 6:

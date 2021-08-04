@@ -23,11 +23,11 @@ class downloader:
     @classmethod 
     def cleanup(cls):
         print("Cleaning...\n")
-        if os.path.exists('v75flat.zip'):
-            os.remove('v75flat.zip')
+        if os.path.exists('flat.zip'):
+            os.remove('flat.zip')
 
-        if os.path.exists('data/v75flat.csv'):
-            os.remove('data/v75flat.csv')
+        if os.path.exists('data/flat.csv'):
+            os.remove('data/flat.csv')
 
     @classmethod 
     def s3_download(cls):
@@ -35,7 +35,7 @@ class downloader:
         try:
             http = urllib3.PoolManager()
             r = http.request(
-                'GET', "http://trottingproject.s3.amazonaws.com/v75flat.zip", preload_content=False)
+                'GET', "https://trottingproject.s3.ca-central-1.amazonaws.com/flat.zip", preload_content=False)
 
             with open("v75flat.zip", 'wb') as out:
                 while True:
