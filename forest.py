@@ -1,19 +1,16 @@
 import sqlalchemy as db
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import RandomizedSearchCV
+# from sklearn.model_selection import RandomizedSearchCV
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error
+# from sklearn.metrics import mean_squared_error
 from sklearn import *
 import numpy as np
 from sklearn.model_selection import GridSearchCV
 
 
-
 class forest:
     
-    
-
     @classmethod
     def rforest(cls, races, upcoming):
 
@@ -21,9 +18,9 @@ class forest:
             'postgresql://postgres:postgres@localhost:5432/trav')
         connection = engine.connect()
         
-        predictions = pd.DataFrame(columns = ['pred'])
+        predictions = []
 
-        for i in range(1, 7):
+        for i in range(1, 8):
 
             cl = races['class'][i]
             dst = races['distance'][i]
@@ -38,8 +35,6 @@ class forest:
             x_train, x_test, y_train, y_test = train_test_split(
                 table[['track', 'winp', 'placep', 'betp', 'points', 'money']], table['won'], test_size=0.25, random_state=42, stratify=table['won'])
             
-            # print(x_train.shape)
-            # print(x_test.shape)
 
             n_estimators = [100]
             max_depth = [5, 8, 15, 25, 30]
@@ -59,34 +54,17 @@ class forest:
             bestF = gridF.fit(x_train, y_train)
                
             final_model = bestF.best_estimator_
-            # Predicting test set results
-            # final_pred = final_model.predict(upcoming.loc[upcoming['lopp'] == i])
-            # print(final_pred)
-            
-            # upcoming["prob"] = final_model.predict(upcoming.loc[upcoming['race'] == i])
-            
-            # upcoming["prob"] = 
             
             myrace = upcoming.loc[upcoming['race'] == i,[ 'track', 'winp', 'placep', 'betp', 'points', 'money']]
-            
-            # print(myrace.shape)
-            
-            Pred = pd.DataFrame()
-            
-            Pred['pred'] = final_model.predict(myrace)
-            
-            predictions = predictions.append(Pred)
-            
-    
         
-        final = pd.merge(upcoming, predictions, left_index=True, right_index=True)
-        
-        # pd.concat([df1, df2, df3, ...], axis=1)
-        
-        return final
+            y_hat = final_model.predict(myrace)
             
-            # ynew = model.predict_proba(Xnew)
-            # final_mse = mean_squared_error(y_test, final_pred)
-            # final_rmse = np.sqrt(final_mse)
-            # print('The final RMSE on the test set is', round(final_rmse, 2))
+            predictions = np.concatenate((predictions, y_hat))
+            
+            
+        upcoming['pred'] = predictions
+        
+        return upcoming
+            
+           
             
