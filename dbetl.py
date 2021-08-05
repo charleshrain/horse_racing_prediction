@@ -38,7 +38,6 @@ class dbimport:
     @classmethod
     def import_data(cls):
         print("Importing...\n")
-        # trav = pd.DataFrame(res.fetchall())
         engine = create_engine(
             'postgresql://postgres:postgres@localhost:5432/trav')
         file_name = 'data/v75flat.csv'
