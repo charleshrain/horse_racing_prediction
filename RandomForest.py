@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.model_selection import GridSearchCV
 
 
-class forest:
+class RandomForest:
     
     @classmethod
     def rforest(cls, races, upcoming):

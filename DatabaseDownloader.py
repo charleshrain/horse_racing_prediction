@@ -11,7 +11,7 @@ import os
 import http
 
 
-class downloader:
+class Downloader:
     
     name = None
     age = None
@@ -21,7 +21,7 @@ class downloader:
         self.age = age
           
     @classmethod 
-    def cleanup(cls):
+    def clean_downloads(cls):
         print("Cleaning...\n")
         if os.path.exists('flat.zip'):
             os.remove('flat.zip')
@@ -30,14 +30,14 @@ class downloader:
             os.remove('data/flat.csv')
 
     @classmethod 
-    def s3_download(cls):
+    def download_s3_csv(cls):
         print("Downloading...\n")
         try:
             http = urllib3.PoolManager()
             r = http.request(
                 'GET', "https://trottingproject.s3.ca-central-1.amazonaws.com/flat.zip", preload_content=False)
 
-            with open("v75flat.zip", 'wb') as out:
+            with open("flat.zip", 'wb') as out:
                 while True:
                     data = r.read(512)
                     if not data:
@@ -51,7 +51,7 @@ class downloader:
     @classmethod
     def extract_zip(cls):
         
-            with zipfile.ZipFile("v75flat.zip", 'r') as zip_ref:
+            with zipfile.ZipFile("flat.zip", 'r') as zip_ref:
                 print("Extracting...\n")
                 zip_ref.extractall("./data/")
 

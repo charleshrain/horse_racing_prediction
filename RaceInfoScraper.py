@@ -6,10 +6,10 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
 
-class racescraper:
+class RaceInfoScraper:
 
     @classmethod
-    def racescrape(cls):
+    def scrape_race_info(cls):
 
         options = Options()
         options.add_argument("--headless")

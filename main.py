@@ -1,8 +1,8 @@
-from racewebscraper import racescraper
-from dbdownloader import downloader
-from dbetl import dbimport
-from webscraper import webscraper
-from forest import forest
+from RaceInfoScraper import RaceInfoScraper
+from DatabaseDownloader import Downloader
+from DatabaseImporter import DatabaseImporter
+from WebScraper import WebScraper
+from RandomForest import RandomForest
 import sys
 import pandas as pd
 sys.path.append(".")
@@ -10,43 +10,43 @@ sys.path.append(".")
 def main():
     
 
-    print("Calculate probability of winning\n")
+    print("Calculate probable winners of upcoming Swedish trotting v75 races\n")
 
     while True:
         print("\nMAIN MENU")
-        print("1. Download data")
-        print("2. Import data to database")
-        print("3. webscrape")
-        print("4. racescrape")
-        print("5. Forest")
+        print("1. Download historical race data")
+        print("2. Import historical race data to database")
+        print("3. Scrape upcoming race data")
+        print("4. Scrape upcoming race types")
+        print("5. Run Random Forest model")
         print("6. Exit")
 
         
         
         try: 
-            choice1 = int(input("Enter the Choice: "))
+            choice1 = int(input("Enter your Choice: "))
         except ValueError:
-            print("That's not an int!")
+            print("That's not a valid number!")
             continue
 
         if choice1 == 1:
-            downloader.cleanup()
-            downloader.s3_download()
-            downloader.extract_zip()
+            Downloader.clean_downloads()
+            Downloader.download_s3_csv()
+            Downloader.extract_zip()
 
         elif choice1 == 2:
             try:
-                dbimport.import_data()
+                DatabaseImporter.import_db_data()
             except:
-                print("No databas connected")
+                print("No database connected")
         elif choice1 == 3:
-            upcoming = webscraper.scrape()
+            upcoming = WebScraper.scrape_race_data()
         
         elif choice1 == 4:
-            races = racescraper.racescrape()
+            races = RaceInfoScraper.scrape_race_info()
             
         elif choice1 == 5:
-            ret = forest.rforest(races, upcoming)
+            ret = RandomForest.rforest(races, upcoming)
             pd.set_option('display.max_rows', None)
             print(ret)
 
@@ -54,7 +54,7 @@ def main():
             break
 
         else:
-            print("Oops! Incorrect Choice.")
+            print("Incorrect Choice.")
             
 if __name__ == "__main__":
         main()

@@ -9,9 +9,9 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
 
-class webscraper:
+class WebScraper:
     @classmethod
-    def scrape(cls):
+    def scrape_race_data(cls):
 
         options = Options()
         options.add_argument("--headless")
@@ -70,7 +70,5 @@ class webscraper:
         
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
         
-        upcoming["prob"] = 0
-
         driver.quit()
         return upcoming
