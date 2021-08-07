@@ -57,12 +57,14 @@ class RandomForest:
             
             myrace = upcoming.loc[upcoming['race'] == i,[ 'track', 'winp', 'placep', 'betp', 'points', 'money']]
         
-            y_hat = final_model.predict(myrace)
+            y_hat = final_model.predict_proba(myrace)
             
-            predictions = np.concatenate((predictions, y_hat))
+            y_hat = pd.DataFrame(y_hat) 
+            
+            predictions = np.concatenate((predictions, y_hat[1]))
             
             
-        upcoming['pred'] = predictions
+        upcoming['pred_win'] = predictions
         
         return upcoming
             
