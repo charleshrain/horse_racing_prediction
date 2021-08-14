@@ -51,7 +51,7 @@ class RaceInfoScraper:
             for classkey, symbol in classes.items():
                 if classkey in data:
                     return symbol
-            return 'B'
+            return '%%'
 
         def decide_distance(data):
 

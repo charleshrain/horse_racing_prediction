@@ -26,7 +26,7 @@ class RandomForest:
             dst = races['distance'][i]
             strt = races['start'][i]
 
-            q = "select flat.won, flat.track, flat.winp, flat.placep, flat.betp, flat.points, flat.money from trav.flat where distance = '" + dst + "' and startmode = '" + strt + "'"
+            q = "select flat.won, flat.track, flat.winp, flat.placep, flat.betp, flat.points, flat.money from trav.flat where division LIKE '" + cl + "' and distance = '" + dst + "' and startmode = '" + strt + "'"
 
             table = pd.read_sql(q, connection)
             
@@ -36,7 +36,7 @@ class RandomForest:
                 table[['track', 'winp', 'placep', 'betp', 'points', 'money']], table['won'], test_size=0.25, random_state=42, stratify=table['won'])
             
 
-            n_estimators = [100]
+            n_estimators = [100, 200, 300]
             max_depth = [5, 8, 15, 25, 30]
             min_samples_split = [2, 5, 10, 15]
             min_samples_leaf = [1, 2, 5, 10]
