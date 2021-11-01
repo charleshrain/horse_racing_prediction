@@ -1,7 +1,7 @@
 from RaceInfoScraper import RaceInfoScraper
 from DatabaseDownloader import Downloader
 from DatabaseImporter import DatabaseImporter
-from WebScraper import WebScraper
+from webscraper import WebScraper
 from RandomForest import RandomForest
 import sys
 import pandas as pd
