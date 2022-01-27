@@ -30,18 +30,19 @@ class WebScraper:
             '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/button[2]').click()  # customize race display info
 
         for i in [1, 2]:
-            link = '/html/body/div[6]/div/div/div/div/div/div[2]/div/div[1]/ul/li[' + str(
+            link = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[1]/ul/li[' + str(
                 i) + ']/div/span[1]'  # race info checkboxes
             driver.find_element_by_xpath(link).click()
 
+
         for i in [2, 4]:
-            link = '/html/body/div[6]/div/div/div/div/div/div[2]/div/div[2]/ul/li[' + str(
+            link = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[' + str(
                 i) + ']/div/span[1]'  # race info checkboxes
 
             driver.find_element_by_xpath(link).click()
 
         driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  # save custom display info
+            '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  # save custom display info
 
         upcoming = pd.DataFrame()
 
