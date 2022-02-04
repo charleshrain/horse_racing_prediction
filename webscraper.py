@@ -1,3 +1,4 @@
+from filecmp import clear_cache
 import pandas as pd
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -29,20 +30,25 @@ class WebScraper:
         driver.find_element_by_xpath(
             '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/button[2]').click()  # customize race display info
 
-        for i in [1, 2]:
-            link = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[1]/ul/li[' + str(
-                i) + ']/div/span[1]'  # race info checkboxes
-            driver.find_element_by_xpath(link).click()
+    
+        # checkboxes for data selection
+        clear_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[1]'
+        driver.find_element_by_xpath(clear_chk).click()
+        
+        pengar_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[1]/ul/li[1]/div/span[1]'
+        driver.find_element_by_xpath(pengar_chk).click()
+        winp_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[1]/ul/li[2]/div/span[1]'
+        driver.find_element_by_xpath(winp_chk).click()
+        placep_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[2]/div/span[1]'
+        driver.find_element_by_xpath(placep_chk).click()
+        points_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[4]/div/span[1]'
+        driver.find_element_by_xpath(points_chk).click()
 
 
-        for i in [2, 4]:
-            link = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[' + str(
-                i) + ']/div/span[1]'  # race info checkboxes
-
-            driver.find_element_by_xpath(link).click()
-
+        # save custom display info
         driver.find_element_by_xpath(
-            '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  # save custom display info
+            '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  
+    
 
         upcoming = pd.DataFrame()
 
@@ -57,7 +63,7 @@ class WebScraper:
 
         upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
         upcoming['track'] = upcoming.index+1
-        upcoming.drop(upcoming.columns[[0, 1, 7, 8]], axis=1, inplace=True)
+        upcoming.drop(upcoming.columns[[0, 1, 7]], axis=1, inplace=True)
 
         upcoming.columns = ['betp', 'money',
                             'winp', 'placep', 'points', 'race', 'track']

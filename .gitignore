@@ -144,3 +144,6 @@ cython_debug/
 data/*
 test.py
 v75flat.zip
+
+#sql prep and stat folder
+sql/
