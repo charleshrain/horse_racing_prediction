@@ -31,7 +31,7 @@ class WebScraper:
             '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/button[2]').click()  # customize race display info
 
     
-        # checkboxes for data selection
+        # check checkboxes for data selection and save selection
         clear_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[1]'
         driver.find_element_by_xpath(clear_chk).click()
         
@@ -44,12 +44,11 @@ class WebScraper:
         points_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[4]/div/span[1]'
         driver.find_element_by_xpath(points_chk).click()
 
-
-        # save custom display info
         driver.find_element_by_xpath(
             '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  
     
 
+        # read upcoming 7 races data into dataframe
         upcoming = pd.DataFrame()
 
         for i in range(1, 8):
@@ -60,7 +59,9 @@ class WebScraper:
             df0 = df[0]
             df0['Lopp'] = i
             upcoming = upcoming.append(df[0])
+            
 
+        # add 'track' column and clean data
         upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
         upcoming['track'] = upcoming.index+1
         upcoming.drop(upcoming.columns[[0, 1, 7]], axis=1, inplace=True)
@@ -76,6 +77,7 @@ class WebScraper:
             lambda x: x.lstrip('+-').rstrip('%'))
         
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
+        
         
         driver.quit()
         return upcoming
