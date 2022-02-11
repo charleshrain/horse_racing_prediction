@@ -14,7 +14,8 @@ class DatabaseImporter:
         'placep',
         'betp',
         'points',
-        'money'
+        'money',
+        'wincur'
     ]
 
     @classmethod

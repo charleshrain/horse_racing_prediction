@@ -27,14 +27,14 @@ class RandomForest:
             dst = races['distance'][i]
             strt = races['start'][i]
 
-            q = "select flat.won, flat.track, flat.winp, flat.placep, flat.betp, flat.points, flat.money from trav.flat where division LIKE '" + cl + "' and distance = '" + dst + "' and startmode = '" + strt + "'"
+            q = "select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_slim a where division LIKE '" + cl + "' and distance = '" + dst + "' and startmode = '" + strt + "'"
 
             table = pd.read_sql(q, connection)
             
             table = table.dropna()
 
             x_train, x_test, y_train, y_test = train_test_split(
-                table[['track', 'winp', 'placep', 'betp', 'points', 'money']], table['won'], test_size=0.25, random_state=42, stratify=table['won'])
+                table[['track', 'winp', 'placep', 'betp', 'points', 'money', 'wincur']], table['won'], test_size=0.25, random_state=42, stratify=table['won'])
             
 
             n_estimators = [100, 200, 300]
@@ -56,7 +56,7 @@ class RandomForest:
                
             final_model = bestF.best_estimator_
             
-            myrace = upcoming.loc[upcoming['race'] == i,[ 'track', 'winp', 'placep', 'betp', 'points', 'money']]
+            myrace = upcoming.loc[upcoming['race'] == i,[ 'track', 'winp', 'placep', 'betp', 'points', 'money', 'wincur']]
         
             y_hat = final_model.predict_proba(myrace)
             
