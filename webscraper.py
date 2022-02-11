@@ -107,7 +107,6 @@ class WebScraper:
         
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
         
-        # upcoming['wincur'] = WebScraper.calc_win_cur(upcoming['wincur'])
         
         driver.quit()
         return upcoming
