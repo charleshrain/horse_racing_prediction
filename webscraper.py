@@ -11,6 +11,30 @@ import pandas as pd
 
 
 class WebScraper:
+    
+    @classmethod
+    def calc_win_cur(cls, wins_string):
+        
+        wins_split = wins_string.split('-')
+        
+        if len(wins_split[0]) == 3:
+            if float(wins_split[0][0:2]) == 0:
+                return 0
+            else:
+                return round(100*float(wins_split[0][2])/float(wins_split[0][0:2]))
+        elif len(wins_split[0]) == 4:
+            if float(wins_split[0][:1]) == 0:
+                return 0
+            else:
+                return round(100*float(wins_split[0][2:])/float(wins_split[0][:1]))
+        elif len(wins_split[0]) == 2:
+            if float(wins_split[0][0]) == 0:
+                return 0
+            else:
+                return round(100*float(wins_split[0][1:])/float(wins_split[0][0]))
+        else:
+            return 0
+    
     @classmethod
     def scrape_race_data(cls):
 
@@ -43,6 +67,9 @@ class WebScraper:
         driver.find_element_by_xpath(placep_chk).click()
         points_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[4]/div/span[1]'
         driver.find_element_by_xpath(points_chk).click()
+        starts_cur = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[2]/ul/li[7]/div/span[1]' #test
+        driver.find_element_by_xpath(starts_cur).click() # test
+
 
         driver.find_element_by_xpath(
             '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[2]').click()  
@@ -64,10 +91,10 @@ class WebScraper:
         # add 'track' column and clean data
         upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
         upcoming['track'] = upcoming.index+1
-        upcoming.drop(upcoming.columns[[0, 1, 7]], axis=1, inplace=True)
+        upcoming.drop(upcoming.columns[[0, 1, 8]], axis=1, inplace=True)
 
         upcoming.columns = ['betp', 'money',
-                            'winp', 'placep', 'points', 'race', 'track']
+                            'winp', 'placep', 'points', 'wincur', 'race', 'track']
 
         upcoming['betp'] = upcoming['betp'].map(
             lambda x: x.lstrip('+-').rstrip('%'))
@@ -75,9 +102,12 @@ class WebScraper:
             lambda x: x.lstrip('+-').rstrip('%'))
         upcoming['placep'] = upcoming['placep'].map(
             lambda x: x.lstrip('+-').rstrip('%'))
+        upcoming['wincur'] = upcoming['wincur'].map(
+            lambda x: WebScraper.calc_win_cur(x))
         
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
         
+        # upcoming['wincur'] = WebScraper.calc_win_cur(upcoming['wincur'])
         
         driver.quit()
         return upcoming
