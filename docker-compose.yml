@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     shm_size: 1g
-    restart: always
+    restart: no
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

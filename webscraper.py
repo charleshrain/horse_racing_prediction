@@ -1,6 +1,7 @@
 from filecmp import clear_cache
 import pandas as pd
 from selenium import webdriver
+from sqlalchemy import false, null
 from webdriver_manager.chrome import ChromeDriverManager
 import lxml
 
@@ -103,8 +104,7 @@ class WebScraper:
         upcoming['placep'] = upcoming['placep'].map(
             lambda x: x.lstrip('+-').rstrip('%'))
         upcoming['wincur'] = upcoming['wincur'].map(
-            lambda x: WebScraper.calc_win_cur(x))
-        
+            lambda x: WebScraper.calc_win_cur(x))    
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
         
         
