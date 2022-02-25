@@ -53,7 +53,8 @@ class WebScraper:
         driver.refresh()
         driver.maximize_window()
         driver.find_element_by_xpath(
-            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[2]/div/div/div[1]/div/div[2]/div/div/button[2]').click()  # customize race display info
+            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/div[1]/div/div/div/div[2]/div/div/button[2]').click()
+            
 
     
         # check checkboxes for data selection and save selection

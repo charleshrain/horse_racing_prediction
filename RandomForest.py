@@ -66,7 +66,7 @@ class RandomForest:
             
             
         upcoming['pred_win'] = predictions
-        print(accuracy_score(y_test, y_hat))
+        # print(accuracy_score(y_test, y_hat))
         
         return upcoming
             
