@@ -1,9 +1,14 @@
 from filecmp import clear_cache
+from multiprocessing.connection import wait
 import pandas as pd
+from prometheus_client import Counter
 from selenium import webdriver
 from sqlalchemy import false, null
 from webdriver_manager.chrome import ChromeDriverManager
 import lxml
+import time
+import numpy as np
+
 
 from selenium.webdriver.chrome.options import Options
 
@@ -12,6 +17,13 @@ import pandas as pd
 
 
 class WebScraper:
+
+    counter = 1
+
+    @classmethod
+    def inc_couter():
+        WebScraper.counter = WebScraper + 1
+        return WebScraper.Counter -1
     
     @classmethod
     def calc_win_cur(cls, wins_string):
@@ -52,8 +64,11 @@ class WebScraper:
             '//*[@id="onetrust-accept-btn-handler"]').click()  # cookies popup
         driver.refresh()
         driver.maximize_window()
-        driver.find_element_by_xpath(
-            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/div[1]/div/div/div/div[2]/div/div/button[2]').click()
+        time.sleep(10)
+        driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[5]/div/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/div[1]/div/div/div[1]/div[2]/div/div/button[2]').click()
+        # driver.find_element_by_css_selector('[data-test-id="DownloadCrosstab-Button"]')
+        
+        # <span class="text-wrapper" data-test-id="startlist-header-race-info">2640m voltstart Trav</span>
             
 
     
@@ -83,16 +98,18 @@ class WebScraper:
         for i in range(1, 8):
 
             df = pd.read_html(driver.find_element_by_xpath(
-                '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[' + str(i) + ']/div/div/table').get_attribute("outerHTML"))
-
+                '/html/body/div[2]/div[1]/div[3]/div[5]/div/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[' + str(i) +  ']/div[1]/div/table').get_attribute("outerHTML"))
+                
             df0 = df[0]
             df0['Lopp'] = i
-            upcoming = upcoming.append(df[0])
+            df0 = df0[~df0['Kusk'].str.contains("Tillägg")]
+            df0['track'] = df0['Lopp'].index + 1
+            upcoming = upcoming.append(df0)
             
 
         # add 'track' column and clean data
-        upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
-        upcoming['track'] = upcoming.index+1
+        # upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
+        # upcoming['track'] = upcoming.index+1
         upcoming.drop(upcoming.columns[[0, 1, 8]], axis=1, inplace=True)
 
         upcoming.columns = ['betp', 'money',
@@ -107,6 +124,7 @@ class WebScraper:
         upcoming['wincur'] = upcoming['wincur'].map(
             lambda x: WebScraper.calc_win_cur(x))    
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
+        # upcoming['track'] = np.arange(len(upcoming))
         
         
         driver.quit()

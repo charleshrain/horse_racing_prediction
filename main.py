@@ -5,6 +5,7 @@ from webscraper import WebScraper
 from RandomForest import RandomForest
 import sys
 import pandas as pd
+import html5lib
 sys.path.append(".")
 
 def main():
