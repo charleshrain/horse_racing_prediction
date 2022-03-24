@@ -27,7 +27,9 @@ class RandomForest:
             dst = races['distance'][i]
             strt = races['start'][i]
 
-            q = "select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where division LIKE {cl}  and distance = {dst} and startmode = {strt}".format(cl, dst, strt)
+            q = "select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where a.division LIKE {}  and a.distance = {} and a.startmode = {}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7')".format(cl, dst, strt)
+
+            q = str(q)
 
             table = pd.read_sql(q, connection)
             

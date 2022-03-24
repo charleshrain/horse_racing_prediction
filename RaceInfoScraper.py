@@ -30,48 +30,48 @@ class RaceInfoScraper:
 
             data = str(data).lower().replace(" ", "")
 
-            classes = {'bronsdivisionen': 'B',
-                       'dubbelklasslopp': 'D',
-                       'elitlopp': 'E',
-                       'flerklasslopp': 'F',
-                       'gulddivisionen': 'G',
-                       'kallblod': 'K',
-                       'klass1': '1',
-                       'klassi,': '1',
-                       'klass2': '2',
-                       'klassii,': '2',
-                       'rlingslopp': 'L',
-                       'silverdivisionen': 'S',
-                       'stodivisionen': 'Q',
-                       'stoeliten': 'X',
-                       'diamant': 'X',
-                       'utomv5': 'U',
-                       'Vv5lopp': 'V'}
+            classes = {'bronsdivisionen': "'B'",
+                       'dubbelklasslopp': "'D'",
+                       'elitlopp': "'E'",
+                       'flerklasslopp': "'F'",
+                       'gulddivisionen': "'G'",
+                       'kallblod': "'K'",
+                       'klass1': "'1'",
+                       'klassi,': "'1'",
+                       'klass2': "'2'",
+                       'klassii,': "'2'",
+                       'rlingslopp': "'L'",
+                       'silverdivisionen': "'S'",
+                       'stodivisionen': "'Q'",
+                       'stoeliten': "'X'",
+                       'diamant': "'X'",
+                       'utomv5': "'U'",
+                       'Vv5lopp': "'V'"}
 
             for classkey, symbol in classes.items():
                 if classkey in data:
                     return symbol
-            return '%%'
+            return "'%%'"
 
         def decide_distance(data):
 
             data = str(data).lower().replace(" ", "")
 
-            distances = {'1640': 'K',
-                         '1650': 'K',
-                         '1609': 'K',
-                         '2100': 'M',
-                         '2140': 'M',
-                         '2175': 'M',
-                         '2300': 'M',
-                         '2550': 'L',
-                         '2609': 'L',
-                         '2640': 'L',
-                         '2700': 'S',
-                         '2850': 'S',
-                         '3140': 'S',
-                         '3160': 'S',
-                         '4000': 'S'}
+            distances = {'1640': "'K'",
+                         '1650': "'K'",
+                         '1609': "'K'",
+                         '2100': "'M'",
+                         '2140': "'M'",
+                         '2175': "'M'",
+                         '2300': "'M'",
+                         '2550': "'L'",
+                         '2609': "'L'",
+                         '2640': "'L'",
+                         '2700': "'S'",
+                         '2850': "'S'",
+                         '3140': "'S'",
+                         '3160': "'S'",
+                         '4000': "'S'"}
 
             for distkey, symbol in distances.items():
                 if distkey in data:
@@ -80,8 +80,8 @@ class RaceInfoScraper:
         def decide_startmode(data):
             data = str(data).lower().replace(" ", "")
 
-            startmode = {'autostart': 'A',
-                         'voltstart': 'V'}
+            startmode = {'autostart': "'A'",
+                         'voltstart': "'V'"}
 
             for startkey, symbol in startmode.items():
                 if startkey in data:
