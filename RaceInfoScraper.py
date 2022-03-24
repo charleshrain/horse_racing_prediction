@@ -92,8 +92,9 @@ class RaceInfoScraper:
         #  race 1 to 7
         for i in range(1, 8):
             klass = decide_class(driver.find_element_by_xpath(
-                # '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[1]/span[3]').get_attribute("innerHTML"))
-                '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div[1]/div/div/div/div[1]/div/div[2]/div[1]/span[3]').get_attribute("innerHTML"))
+                '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div[1]/div/div/div/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
+                # '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/         div[1]/div/div/div/div[1]/div/div[2]/div[2]/div[2]/span
+             
                 
             distans = decide_distance(driver.find_element_by_xpath(
                 '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div['+str(i)+']/div/div/div[1]/div/div[1]/div/div[2]/div[2]/div[2]/span').get_attribute("innerHTML"))
