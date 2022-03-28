@@ -23,12 +23,8 @@ def main():
             print("6. Exit")
 
             
-            
-        
             choice1 = int(input("Enter your Choice: "))
-            # except ValueError:
-            #     print("That's not a valid number!")
-            #     continue
+      
 
             if choice1 == 1:
                 Downloader.clean_downloads()

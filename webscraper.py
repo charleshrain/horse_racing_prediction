@@ -8,11 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import lxml
 import time
 import numpy as np
-
-
 from selenium.webdriver.chrome.options import Options
-
-# from selenium.webdriver import ActionChains
 import pandas as pd
 
 
@@ -66,12 +62,7 @@ class WebScraper:
         driver.maximize_window()
         time.sleep(10)
         driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[5]/div/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/div[1]/div/div/div[1]/div[2]/div/div/button[2]').click()
-        # driver.find_element_by_css_selector('[data-test-id="DownloadCrosstab-Button"]')
-        
-        # <span class="text-wrapper" data-test-id="startlist-header-race-info">2640m voltstart Trav</span>
-            
-
-    
+      
         # check checkboxes for data selection and save selection
         clear_chk = '/html/body/div[4]/div/div/div/div/div/div[2]/div/div[3]/button[1]'
         driver.find_element_by_xpath(clear_chk).click()
