@@ -10,6 +10,8 @@ import os
 
 import http
 
+import requests
+
 
 class Downloader:
     
@@ -33,20 +35,15 @@ class Downloader:
     def download_s3_csv(cls):
         print("Downloading...\n")
         try:
-            http = urllib3.PoolManager()
-            r = http.request(
-                'GET', "https://trottingproject.s3.ca-central-1.amazonaws.com/flat.zip", preload_content=False)
+            url = "https://trottingproject.s3.ca-central-1.amazonaws.com/flat.zip"
+            r = requests.get(url)
 
-            with open("flat.zip", 'wb') as out:
-                while True:
-                    data = r.read(512)
-                    if not data:
-                        break
-                    out.write(data)
+            with open("flat.zip",'wb') as f:
+                f.write(r.content)        
         except:
             print("An error occured")
-        finally:
-            r.release_conn()
+        # finally:
+        #     r.release_conn()
     
     @classmethod
     def extract_zip(cls):
