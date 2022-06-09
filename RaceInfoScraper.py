@@ -88,16 +88,11 @@ class RaceInfoScraper:
 
         races = pd.DataFrame(columns=['race', 'class', 'distance', 'start'])
 
-        #  race 1 to 7
         for i in range(1, 8):
             klass = decide_class(driver.find_element_by_xpath("(//span[@class='race-name'])[" + str(i) + "]").get_attribute("innerHTML"))
-            # driver.find_element_by_xpath("(//span[@class='race-name'])[2]")
             distans = decide_distance(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
-                
             startmode = decide_startmode(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
-            
             races.loc[i] = [i, klass, distans, startmode]
-
 
         driver.quit()
         return races
