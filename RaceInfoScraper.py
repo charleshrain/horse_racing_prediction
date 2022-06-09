@@ -19,7 +19,6 @@ class RaceInfoScraper:
             ChromeDriverManager().install(), chrome_options=options)
 
         driver.get('https://www.atg.se/spel/V75')
-        driver.get('https://www.atg.se/spel/V75')
         driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click() 
         driver.refresh()
         driver.maximize_window()
@@ -91,11 +90,11 @@ class RaceInfoScraper:
 
         #  race 1 to 7
         for i in range(1, 8):
-            klass = decide_class(driver.find_element_by_css_selector('#main > div.active-game-type-v75 > div:nth-child(2) > div > div > div > div > div > div > div:nth-child(7) > div:nth-child(' + str(i) + ') > div > div > div > div.flexboxgrid2_row_1w > div.flexboxgrid2_col-xs-12_2A.flexboxgrid2_col-sm-8_3U.flexboxgrid2_col-md-7_25 > div > div.cell-wrapper > div.race-info-overview > span.race-name').get_attribute("innerHTML"))
-                   
-            distans = decide_distance(driver.find_element_by_css_selector('#main > div.active-game-type-v75 > div:nth-child(2) > div > div > div > div > div > div > div:nth-child(7) > div:nth-child(' + str(i) + ') > div > div > div > div.flexboxgrid2_row_1w > div.flexboxgrid2_col-xs-12_2A.flexboxgrid2_col-sm-8_3U.flexboxgrid2_col-md-7_25 > div > div.cell-wrapper > div.race-combined-info > div.slanted.race-distance-start-method > span').get_attribute("innerHTML"))
+            klass = decide_class(driver.find_element_by_xpath("(//span[@class='race-name'])[" + str(i) + "]").get_attribute("innerHTML"))
+            # driver.find_element_by_xpath("(//span[@class='race-name'])[2]")
+            distans = decide_distance(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
                 
-            startmode = decide_startmode(driver.find_element_by_css_selector('#main > div.active-game-type-v75 > div:nth-child(2) > div > div > div > div > div > div > div:nth-child(7) > div:nth-child(' + str(i) + ') > div > div > div > div.flexboxgrid2_row_1w > div.flexboxgrid2_col-xs-12_2A.flexboxgrid2_col-sm-8_3U.flexboxgrid2_col-md-7_25 > div > div.cell-wrapper > div.race-combined-info > div.slanted.race-distance-start-method > span').get_attribute("innerHTML"))
+            startmode = decide_startmode(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
             
             races.loc[i] = [i, klass, distans, startmode]
 
