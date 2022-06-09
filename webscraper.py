@@ -61,34 +61,28 @@ class WebScraper:
         driver.maximize_window()
         time.sleep(10)
 
-        driver.find_element_by_css_selector('#main > div.active-game-type-v75 > div:nth-child(2) > div > div > div > div > div > div > div:nth-child(7) > div:nth-child(1) > div > div > div > div.flexboxgrid2_row_1w > div.flexboxgrid2_col-xs-12_2A.flexboxgrid2_col-sm-5_2S.flexboxgrid2_col-md-6_1m.startlist-header__table-wrapper.startlist-actions > div > button.css-eugx3a-startlistoptionsview-styles--configButton-Button--buttonComponent').click()
-        # driver.find_element_by_xpath('/html/body/div[2]/div[1]/div[3]/div[5]/div/div[3]/div[2]/div/div/div/div/div/div[2]/div[6]/div[1]/div[1]/div/div/div[1]/div[2]/div/div/button[2]').click()
-      
-        # check checkboxes for data selection and save selection
-        driver.find_element_by_css_selector('body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.css-dr5zvn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogClear > button.css-tqseha-Button-styles--root-Button--Button').click()
-        
-        pengar_chk = 'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.col-xs-6.css-1xikekk-StartlistDisplayOptionsDialog-styles--displayOptionsColumn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogPopular > ul > li:nth-child(1) > div > span.css-1ract64-Checkbox-styles--icon'
-        driver.find_element_by_css_selector(pengar_chk).click()
-        winp_chk = 'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.col-xs-6.css-1xikekk-StartlistDisplayOptionsDialog-styles--displayOptionsColumn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogPopular > ul > li:nth-child(2) > div > span.css-1ract64-Checkbox-styles--icon'
-        driver.find_element_by_css_selector(winp_chk).click()
-        placep_chk = 'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.col-xs-6.css-13rqg9x-StartlistDisplayOptionsDialog-styles--displayOptionsColumn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogOthers > ul > li:nth-child(2) > div > span.css-1ract64-Checkbox-styles--icon'
-        driver.find_element_by_css_selector(placep_chk).click()
-        points_chk = 'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.col-xs-6.css-13rqg9x-StartlistDisplayOptionsDialog-styles--displayOptionsColumn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogOthers > ul > li:nth-child(4) > div > span.css-1ract64-Checkbox-styles--icon'
-        driver.find_element_by_css_selector(points_chk).click()
-        starts_cur = 'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.col-xs-6.css-13rqg9x-StartlistDisplayOptionsDialog-styles--displayOptionsColumn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogOthers > ul > li:nth-child(6) > div > span.css-1ract64-Checkbox-styles--icon' #test
-        driver.find_element_by_css_selector(starts_cur).click() # test
+        # customize stats button
+        driver.find_element_by_class_name('css-eugx3a-startlistoptionsview-styles--configButton-Button--buttonComponent').click()
 
+        #clear stats button
+        driver.find_element_by_class_name('css-tqseha-Button-styles--root-Button--Button').click()
 
-        driver.find_element_by_css_selector(
-            'body > div.modal-container > div > div > div > div > div > div.modal__body.css-krjfgr-StartlistOptionsModal-styles--optionsModalBody-Modal--Modal > div > div.css-dr5zvn-StartlistDisplayOptionsDialog-styles--displayOptionsDialogClear > button.css-1ixvue2-Button-styles--root-PrimaryButton-styles--root-StartlistDisplayOptionsDialog-styles--saveButton-PrimaryButton--PrimaryButton-StartlistDisplayOptionsDialog-styles--saveButton').click()  
-    
+        #select stats checkboxes
+        pengar_chk = driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/div/div[3]/div/div[1]/ul/li[1]/div/span[1]').click()
+        winp_chk = driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/div/div[3]/div/div[1]/ul/li[2]/div/span[1]').click()
+        placep_chk = driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/div/div[3]/div/div[2]/ul/li[2]/div/span[1]').click()
+        points_chk = driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/div/div[3]/div/div[2]/ul/li[4]/div/span[1]').click()
+        starts_cur = driver.find_element_by_xpath('/html/body/div[4]/div/div/div/div/div/div[3]/div/div[2]/ul/li[6]/div/span[1]').click()
+
+        # save button selected stats
+        driver.find_element_by_css_selector("button[data-test-id='save-startlist-options']").click()
 
         # read upcoming 7 races data into dataframe
         upcoming = pd.DataFrame()
 
         for i in range(1, 8):
 
-            df = pd.read_html(driver.find_element_by_css_selector( '#main > div.active-game-type-v75 > div:nth-child(2) > div > div > div > div > div > div > div:nth-child(7) > div:nth-child('+ str(i) + ') > div > div > table').get_attribute("outerHTML"))
+            df = pd.read_html(driver.find_element_by_css_selector('table[data-test-id="startlist-race-' + str(i) +'"]').get_attribute("outerHTML"))
                  
             df0 = df[0]
             df0['Lopp'] = i
