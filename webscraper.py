@@ -54,6 +54,14 @@ class WebScraper:
         driver = webdriver.Chrome(
             ChromeDriverManager().install(), chrome_options=options)
 
+        #get driver ranks
+        driver.get('https://sportapp.travsport.se/toplists?categoryId=1&typeId=1&list=S&year=2022&licenseType=S&gender=B&homeTrack=S&raceOnTrack=A&typeOfRace=B&sulkyOrMonte=B&breed=B&returnNumberOfEntries=200&onlyYouth=false')
+        time.sleep(3)
+        driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/button').click()
+        driver_ranks = pd.read_html(driver.find_element_by_css_selector('table[class="RegularTable_table__3u7b6"]').get_attribute("outerHTML"))
+
+
+
         # get page pertaining to correct race type
         driver.get('https://www.atg.se/spel/V75')
         driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click()  # cookies popup
