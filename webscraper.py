@@ -58,8 +58,8 @@ class WebScraper:
         driver.get('https://sportapp.travsport.se/toplists?categoryId=1&typeId=1&list=S&year=2022&licenseType=S&gender=B&homeTrack=S&raceOnTrack=A&typeOfRace=B&sulkyOrMonte=B&breed=B&returnNumberOfEntries=200&onlyYouth=false')
         time.sleep(3)
         driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/button').click()
-        driver_ranks = pd.read_html(driver.find_element_by_css_selector('table[class="RegularTable_table__3u7b6"]').get_attribute("outerHTML"))
-
+        driver_ranks = pd.read_html(driver.find_element_by_css_selector("table[class='RegularTable_table__no-uJ']").get_attribute("outerHTML"))
+        print(driver_ranks)
 
 
         # get page pertaining to correct race type
