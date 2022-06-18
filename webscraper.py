@@ -59,7 +59,7 @@ class WebScraper:
         time.sleep(3)
         driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/button').click()
         driver_ranks = pd.read_html(driver.find_element_by_css_selector("table[class='RegularTable_table__no-uJ']").get_attribute("outerHTML"))
-        print(driver_ranks)
+        # print(driver_ranks)
 
 
         # get page pertaining to correct race type
