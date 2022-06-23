@@ -22,9 +22,7 @@ def main():
             print("5. Run Random Forest model")
             print("6. Exit")
 
-            
             choice1 = int(input("Enter your Choice: "))
-      
 
             if choice1 == 1:
                 Downloader.clean_downloads()

@@ -59,8 +59,6 @@ class WebScraper:
         time.sleep(3)
         driver.find_element_by_xpath('//*[@id="root"]/div/div[2]/div/button').click()
         driver_ranks = pd.read_html(driver.find_element_by_css_selector("table[class='RegularTable_table__no-uJ']").get_attribute("outerHTML"))
-        # print(driver_ranks)
-
 
         # get page pertaining to correct race type
         driver.get('https://www.atg.se/spel/V75')
@@ -96,12 +94,10 @@ class WebScraper:
             df0['Lopp'] = i
             df0 = df0[~df0['Kusk'].str.contains("Tillägg")]
             df0['track'] = df0['Lopp'].index + 1
-            upcoming = upcoming.append(df0)
+            upcoming_temp = pd.concat([upcoming, df0])
+            upcoming = upcoming_temp
             
 
-        # add 'track' column and clean data
-        # upcoming = upcoming[~upcoming['Kusk'].str.contains("Tillägg")]
-        # upcoming['track'] = upcoming.index+1
         upcoming.drop(upcoming.columns[[0, 1, 8]], axis=1, inplace=True)
 
         upcoming.columns = ['betp', 'money',
@@ -116,7 +112,6 @@ class WebScraper:
         upcoming['wincur'] = upcoming['wincur'].map(
             lambda x: WebScraper.calc_win_cur(x))    
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
-        # upcoming['track'] = np.arange(len(upcoming))
         
         
         driver.quit()
