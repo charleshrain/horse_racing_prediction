@@ -27,9 +27,19 @@ class RandomForest:
             dst = races['distance'][i]
             strt = races['start'][i]
 
-            q = "select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where a.division LIKE {}  and a.distance = {} and a.startmode = {}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7') ".format(cl, dst, strt)
-
+            max_track = upcoming[upcoming['race'] == i].shape[0]
+            
+            if max_track <= 12:
+                min, max = 1, 12
+            else:
+                min, max = 13, 15
+            
+            q = "with lopps as (select loppid from trav.maxtrack where max BETWEEN {} and {}) select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where a.division LIKE {}  and a.distance = {} and a.startmode = {}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7') and a.loppid IN (select loppid from lopps) ".format(min, max, cl, dst, strt)
             table = pd.read_sql(q, connection)
+
+            if table.empty or len(table.index) < 50:
+                q = "with lopps as (select loppid from trav.maxtrack where max BETWEEN {} and {}) select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where  a.distance = {} and a.startmode = {}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7') and a.loppid IN (select loppid from lopps) ".format(min, max, dst, strt)
+                table = pd.read_sql(q, connection)
 
             if table.empty or len(table.index) < 50:
                 q = "select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where  a.distance = {} and a.startmode = {}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7')  ".format(dst, strt)
