@@ -68,7 +68,7 @@ class WebScraper:
         time.sleep(10)
 
         # customize stats button
-        driver.find_element_by_class_name('css-eugx3a-startlistoptionsview-styles--configButton-Button--buttonComponent').click()
+        driver.find_element_by_xpath('//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div[1]/div/div/div/div[2]/div/button[3]').click()
 
         #clear stats button
         driver.find_element_by_class_name('css-tqseha-Button-styles--root-Button--Button').click()

@@ -15,37 +15,29 @@ def main():
     try: 
         while True:
             print("\nMAIN MENU")
-            print("1. Download historical race data")
-            print("2. Import historical race data to database")
-            print("3. Scrape upcoming race data")
-            print("4. Scrape upcoming race types")
-            print("5. Run Random Forest model")
-            print("6. Exit")
+            print("1. Download database Docker file")
+            # print("2. Import historical race data to database")
+            print("2. Scrape upcoming race data")
+            print("3. Scrape upcoming race types")
+            print("4. Run Random Forest model")
+            print("5. Exit")
 
             choice1 = int(input("Enter your Choice: "))
 
             if choice1 == 1:
-                Downloader.clean_downloads()
-                Downloader.download_s3_csv()
-                Downloader.extract_zip()
-
+                print("download docker image")
             elif choice1 == 2:
-                try:
-                    DatabaseImporter.import_db_data()
-                except:
-                    print("No database connected")
-            elif choice1 == 3:
                 upcoming = WebScraper.scrape_race_data()
             
-            elif choice1 == 4:
+            elif choice1 == 3:
                 races = RaceInfoScraper.scrape_race_info()
                 
-            elif choice1 == 5:
+            elif choice1 == 4:
                 ret = RandomForest.rforest(races, upcoming)
                 pd.set_option('display.max_rows', None)
                 print(ret)
 
-            elif choice1 == 6:
+            elif choice1 == 5:
                 break
 
             else:
