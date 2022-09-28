@@ -25,7 +25,9 @@ def main():
             choice1 = int(input("Enter your Choice: "))
 
             if choice1 == 1:
-                print("download docker image")
+                Downloader.clean_downloads()
+                Downloader.download_s3_csv()
+                Downloader.extract_zip()
             elif choice1 == 2:
                 upcoming = WebScraper.scrape_race_data()
             
