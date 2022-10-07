@@ -92,6 +92,8 @@ class WebScraper:
                  
             df0 = df[0]
             df0['Lopp'] = i
+            if('Ryttare' in df0.columns): 
+                df0.rename(columns = {'Ryttare':'Kusk'}, inplace = True)
             df0 = df0[~df0['Kusk'].str.contains("Tillägg")]
             df0['track'] = df0['Lopp'].index + 1
             upcoming_temp = pd.concat([upcoming, df0])
