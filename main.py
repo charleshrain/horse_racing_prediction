@@ -16,7 +16,6 @@ def main():
         while True:
             print("\nMAIN MENU")
             print("1. Download database Docker file")
-            # print("2. Import historical race data to database")
             print("2. Scrape upcoming race data")
             print("3. Scrape upcoming race types")
             print("4. Run Random Forest model")
