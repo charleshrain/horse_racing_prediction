@@ -10,7 +10,7 @@ import time
 import numpy as np
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
-
+from time import sleep
 
 class WebScraper:
 
@@ -53,6 +53,7 @@ class WebScraper:
 
         driver = webdriver.Chrome(
             ChromeDriverManager().install(), chrome_options=options)
+
 
         #get driver ranks
         driver.get('https://sportapp.travsport.se/toplists?categoryId=1&typeId=1&list=S&year=2022&licenseType=S&gender=B&homeTrack=S&raceOnTrack=A&typeOfRace=B&sulkyOrMonte=B&breed=B&returnNumberOfEntries=200&onlyYouth=false')
@@ -114,7 +115,7 @@ class WebScraper:
         upcoming['wincur'] = upcoming['wincur'].map(
             lambda x: WebScraper.calc_win_cur(x))    
         upcoming['money'] = [float(str(val).replace(' ','').replace(',','.')) for val in upcoming['money'].values]
-        
+        upcoming['points'] = upcoming['points'].fillna(0) #quick fix
         
         driver.quit()
         return upcoming

@@ -5,7 +5,6 @@ import lxml
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
-
 class RaceInfoScraper:
 
     @classmethod
@@ -74,7 +73,7 @@ class RaceInfoScraper:
 
             for distkey, symbol in distances.items():
                 if distkey in data:
-                    return symbol if symbol is not None else 'M'
+                    return symbol if symbol is not None  else 'M'
 
         def decide_startmode(data):
             data = str(data).lower().replace(" ", "")
@@ -91,15 +90,20 @@ class RaceInfoScraper:
         for i in range(1, 8):
 
             """//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div["""+str(i)+ "]/div[1]/div/div/div/div[1]/div/div[2]/div[1]/span[3]"""
-            # //*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[2]/div[1]/div/div/div/div[1]/div/div[2]/div[1]/span[3]/text()
-
+            
             try:
                 klass = decide_class(driver.find_element_by_xpath("(//span[@class='race-name'])[" + str(i) + "]").get_attribute("innerHTML"))
             except:
                 klass = "Other"
-            distans = decide_distance(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
+            try:
+                distans = decide_distance(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
+            except:
+                distans = "M"
             startmode = decide_startmode(driver.find_element_by_xpath("(//span[@data-test-id='startlist-header-race-info'])[" + str(i) + "]").get_attribute("innerHTML"))
             races.loc[i] = [i, klass, distans, startmode]
+            
 
         driver.quit()
+        races.distance = races.distance.fillna("'M'") #quick fix
+        races['class'].values[races['class'].values == 'Other'] ="'%%'" #quick fix
         return races
