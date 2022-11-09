@@ -1,53 +1,55 @@
-from RaceInfoScraper import RaceInfoScraper
-from DatabaseDownloader import Downloader
-from DatabaseImporter import DatabaseImporter
-from webscraper import WebScraper
-from RandomForest import RandomForest
+""""Program to forecast probability of winning in future horse races"""
 import sys
+
 import pandas as pd
-import html5lib
+
+
+import database_downloader
+import race_scraper
+import random_forest
+import web_scraper
+
 sys.path.append(".")
 
 def main():
-    
+    """"Main program"""
     print("Calculate probable winners of upcoming Swedish trotting v75 races\n")
 
-    try: 
-        while True:
-            print("\nMAIN MENU")
-            print("1. Download database Docker file")
-            print("2. Scrape upcoming race data")
-            print("3. Scrape upcoming race types")
-            print("4. Run Random Forest model")
-            print("5. Exit")
+    races = None
+    upcoming = None
 
-            choice1 = int(input("Enter your Choice: "))
+    while True:
+        print("\nMAIN MENU")
+        print("1. Download database Docker file")
+        print("2. Scrape upcoming race data")
+        print("3. Scrape upcoming race types")
+        print("4. Run Random Forest model")
+        print("5. Exit")
 
-            if choice1 == 1:
-                Downloader.clean_downloads()
-                Downloader.download_s3_csv()
-                Downloader.extract_zip()
-            elif choice1 == 2:
-                upcoming = WebScraper.scrape_race_data()
-            
-            elif choice1 == 3:
-                races = RaceInfoScraper.scrape_race_info()
-                
-            elif choice1 == 4:
-                ret = RandomForest.rforest(races, upcoming)
-                pd.set_option('display.max_rows', None)
-                print(ret)
+        choice1 = int(input("Enter your Choice: "))
 
-            elif choice1 == 5:
-                break
+        if choice1 == 1:
+            downloader = database_downloader.Downloader()
+            downloader.clean_downloads()
+            downloader.download_s3_csv()
+            downloader.extract_zip()
+        elif choice1 == 2:
+            w_scraper = web_scraper.WebScraper()
+            upcoming = w_scraper.scrape_race_data()
+        elif choice1 == 3:
+            my_race = race_scraper.RaceInfoScraper()
+            races = my_race.scrape_race_info()
+        elif choice1 == 4:
+            runner = random_forest.RandomForestRunner()
+            ret = runner.rforest(races, upcoming)
+            pd.set_option('display.max_rows', None)
+            print(ret)
 
-            else:
-                print("Incorrect Choice.")
+        elif choice1 == 5:
+            break
 
-    except Exception as e:
-      print("An error occured!")
-      print(e)
-            
+        else:
+            print("Incorrect Choice.")
+
 if __name__ == "__main__":
-        main()
-
+    main()
