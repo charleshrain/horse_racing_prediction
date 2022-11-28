@@ -1,32 +1,21 @@
 """Helper module used to scrapa future race characteristics"""
-# import pandas as pd
-from selenium import webdriver
-
-# import lxml
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-
 import pandas as pd
-
 
 class RaceInfoScraper:
     """Web scraper for upcoming races"""
 
+    driver = None
+
+    def __init__(self, driver):
+        self.driver = driver
+
     def scrape_race_info(self):
         """Scrapes race categorical info"""
 
-        options = Options()
-        options.add_argument("--headless")
-        options.add_argument("--window-size=1680,1050")
-
-        driver = webdriver.Chrome(
-            ChromeDriverManager().install(), chrome_options=options)
-
-        driver.get('https://www.atg.se/spel/V75')
-        driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click()
-        driver.refresh()
-        driver.maximize_window()
-        driver.execute_script(
+        self.driver.get('https://www.atg.se/spel/V75')
+        self.driver.refresh()
+        self.driver.maximize_window()
+        self.driver.execute_script(
             "window.scrollTo(0, document.body.scrollHeight);")
 
         races = pd.DataFrame(columns=['race', 'class', 'distance', 'start'])
@@ -34,27 +23,26 @@ class RaceInfoScraper:
         for i in range(1, 8):
             try:
                 klass = self.decide_class(
-                    driver.find_element_by_xpath("(//span[@class='race-name'])["\
+                    self.driver.find_element_by_xpath("(//span[@class='race-name'])["\
                                                  + str(i) + "]").get_attribute(
                         "innerHTML"))
             except Exception as exc:
                 print(exc)
                 klass = "Other"
             try:
-                distans = self.decide_distance(driver.find_element_by_xpath(
+                distans = self.decide_distance(self.driver.find_element_by_xpath(
                     "(//span[@data-test-id='startlist-header-race-info'])["\
                     + str(i) + "]").get_attribute("innerHTML"))
             except Exception as exc:
                 print(exc)
                 distans = "M"
 
-            startmode = "A" if "Auto" in driver.find_element_by_xpath(
+            startmode = "A" if "Auto" in self.driver.find_element_by_xpath(
                 "(//span[@data-test-id='startlist-header-race-info'])["\
                 + str(i) + "]").get_attribute(
                 "innerHTML") else "V"
             races.loc[i] = [i, klass, distans, startmode]
 
-        driver.quit()
         races.distance = races.distance.fillna("'M'")  # quick fix
         races['class'].values[races['class'].values == 'Other'] = "'%%'"  # quick fix
         return races

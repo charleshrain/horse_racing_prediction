@@ -1,26 +1,20 @@
 """Takes inputs and creates forecast using a random forest model"""
-import sqlalchemy as db
-import psycopg2
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-# from sklearn.metrics import accuracy_score
-# from sklearn import *
 import numpy as np
-
-
 
 class RandomForestRunner:
     """Takes inputs and creates forecasted probabilities using random forest"""
+
+    connection = None
+
+    def __init__(self, connection):
+        self.connection = connection
     def rforest(self, races, upcoming):
         """The random forest model builder"""
         try:
-            engine = db.create_engine(
-                'postgresql://postgres:postgres@localhost:5432/trav')
-            connection = engine.connect()
-            predictions = []
-
             for i in range(1, 8):
 
                 class_var = races['class'][i]
@@ -33,15 +27,15 @@ class RandomForestRunner:
                 else:
                     min_tr, max_tr = 13, 15
                 query = f"with lopps as (select loppid from trav.maxtrack where max BETWEEN {min_tr} and {max_tr}) select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where a.division LIKE {class_var}  and a.distance = {dst} and a.startmode = {start_mode}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7') and a.loppid IN (select loppid from lopps)"
-                table = pd.read_sql(query, connection)
+                table = pd.read_sql(query, self.connection)
 
                 if table.empty or len(table.index) < 50:
                     query = f"with lopps as (select loppid from trav.maxtrack where max BETWEEN {min_tr} and {max_tr}) select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where  a.distance = {dst} and a.startmode = {start_mode}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7') and a.loppid IN (select loppid from lopps)"
-                    table = pd.read_sql(query, connection)
+                    table = pd.read_sql(query, self.connection)
 
                 if table.empty or len(table.index) < 50:
                     query = f"select a.won, a.track, a.winp, a.placep, a.betp, a.points, a.money, a.wincur from trav.flat_temp a where  a.distance = {dst} and a.startmode = {start_mode}  and a.v75 IN ('1', '2', '3', '4', '5', '6', '7')"
-                    table = pd.read_sql(query, connection)
+                    table = pd.read_sql(query, self.connection)
 
                 table = table.dropna()
 
