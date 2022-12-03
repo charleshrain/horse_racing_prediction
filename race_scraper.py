@@ -1,6 +1,7 @@
 """Helper module used to scrapa future race characteristics"""
 import pandas as pd
 
+
 class RaceInfoScraper:
     """Web scraper for upcoming races"""
 
@@ -23,22 +24,21 @@ class RaceInfoScraper:
         for i in range(1, 8):
             try:
                 klass = self.decide_class(
-                    self.driver.find_element_by_xpath("(//span[@class='race-name'])["\
-                                                 + str(i) + "]").get_attribute(
+                    self.driver.find_element_by_xpath("(//span[@class='race-name'])[" + str(i) + "]").get_attribute(
                         "innerHTML"))
             except Exception as exc:
                 print(exc)
                 klass = "Other"
             try:
                 distans = self.decide_distance(self.driver.find_element_by_xpath(
-                    "(//span[@data-test-id='startlist-header-race-info'])["\
+                    "(//span[@data-test-id='startlist-header-race-info'])[" \
                     + str(i) + "]").get_attribute("innerHTML"))
             except Exception as exc:
                 print(exc)
                 distans = "M"
 
             startmode = "A" if "Auto" in self.driver.find_element_by_xpath(
-                "(//span[@data-test-id='startlist-header-race-info'])["\
+                "(//span[@data-test-id='startlist-header-race-info'])[" \
                 + str(i) + "]").get_attribute(
                 "innerHTML") else "V"
             races.loc[i] = [i, klass, distans, startmode]
