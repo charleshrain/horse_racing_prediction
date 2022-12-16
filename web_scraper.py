@@ -1,11 +1,5 @@
 """Webscraper for race participant data"""
-import time
 import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-
-from webdriver_manager.chrome import ChromeDriverManager
-
 
 class WebScraper:
     """Web scraper class"""
@@ -39,54 +33,34 @@ class WebScraper:
     def scrape_race_data(self):
         """Scrapes data"""
 
-        self.driver.get('https://www.atg.se/spel/V75')
-        self.driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click()
+        self.driver.get('https://www.atg.se/spel/V75')  # go to race start page
         self.driver.refresh()
         self.driver.maximize_window()
 
-        # self.driver.execute_script(
-        #     "window.scrollTo(0, document.body.scrollHeight);")
+        # click customize stats button
+        self.driver.find_element_by_css_selector(
+            'button.MuiButtonBase-root.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.MuiButton-root.MuiButton-outlined.MuiButton-outlinedPrimary.MuiButton-sizeMedium.MuiButton-outlinedSizeMedium.css-i42r0d.css-1ba6utu').click()
 
-
-        self.driver.find_element_by_xpath('//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div/div/div/div[1]/div[2]/div/button[2]').click()
-        self.driver.find_element_by_xpath('//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div/div/div/div[1]/div[2]/div/button[2]').click()
-
-
-        # customize stats button
-        self.driver.find_element_by_xpath(
-            '//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div[1]/div/div/div/div[2]/div/button[3]').click()
-
-        # clear stats button
+        # clear selected stats button
         self.driver.find_element_by_class_name('css-tqseha-Button-styles--root-Button--Button').click()
 
-        # select stats checkboxes
-        #money
-        self.driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[3]/div/div[1]/ul/li[1]').click()
-        #win percent
-        self.driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[3]/div/div[1]/ul/li[2]').click()
+        # check stats checkboxes
+        # money
+        self.driver.find_elements_by_css_selector('span.css-1hngy38-Checkbox-styles--label')[1].click()
+        # win percent
+        self.driver.find_elements_by_css_selector('span.css-1hngy38-Checkbox-styles--label')[2].click()
         # points
-        self.driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[3]/div/div[2]/ul/li[4]').click()
+        self.driver.find_elements_by_css_selector('span.css-1hngy38-Checkbox-styles--label')[17].click()
         # place percentage
-        self.driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[3]/div/div[2]/ul/li[2]').click()
-        #races this year
-        self.driver.find_element_by_xpath(
-            '/html/body/div[6]/div/div/div/div/div/div[3]/div/div[2]/ul/li[6]').click()
+        self.driver.find_elements_by_css_selector('span.css-1hngy38-Checkbox-styles--label')[15].click()
+        # races this year
+        self.driver.find_elements_by_css_selector('span.css-1hngy38-Checkbox-styles--label')[19].click()
 
-        # save button selected stats
+        # click save selected stats button
         self.driver.find_element_by_css_selector("button[data-test-id='save-startlist-options']").click()
 
         # read upcoming 7 races data into dataframe
         upcoming = pd.DataFrame()
-
-        self.driver.find_element_by_xpath(
-            """//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div[1]/div/div/div/div[2]/div/button[2]""").click()
-        self.driver.find_element_by_xpath(
-            """//*[@id="main"]/div[3]/div[2]/div/div/div/div/div/div/div[5]/div[1]/div[1]/div/div/div/div[2]/div/button[2]""").click()
-
         for i in range(1, 8):
 
             path = f"(//table[@data-test-id='startlist-race-{i}'])"
@@ -114,5 +88,4 @@ class WebScraper:
         upcoming['money'] = [float(str(val).replace(' ', '').replace(',', '.')) for val in upcoming['money'].values]
         upcoming['points'] = upcoming['points'].fillna(0)  # quick fix
 
-        # driver.quit()
         return upcoming

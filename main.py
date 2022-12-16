@@ -1,22 +1,18 @@
 """"Program to forecast probability of winning in future horse races"""
 import sys
 import sqlalchemy as db
-import psycopg2
 import pandas as pd
-
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-
-# from selenium import webdriver
-import chromedriver_binary  # Adds chromedriver binary to path
-
 import database_downloader
 import race_scraper
 import random_forest
 import web_scraper
+import time
 
 sys.path.append(".")
+
 
 def main():
     """"Main program"""
@@ -26,15 +22,20 @@ def main():
     upcoming = None
 
     options = Options()
-    options.add_argument("--headless")
     options.add_argument("--window-size=1680,1050")
-    # driver = webdriver.Chrome(
-    #     ChromeDriverManager().install(), chrome_options=options)
+    options.add_argument("--headless")
 
-    # chrome_driver = webdriver.Chrome()
     with webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options) as driver:
+        driver.get("chrome://settings/clearBrowserData")
+        time.sleep(5)
+        driver.switch_to.active_element
+        driver.get('https://www.atg.se/spel/V75')
+        driver.find_element_by_css_selector('#onetrust-accept-btn-handler').click()  # accept cookies
+        driver.refresh()
+
         engine = db.create_engine('postgresql://postgres:postgres@localhost:5432/trav')
         connection = engine.connect()
+
         while True:
             print("\nMAIN MENU")
             print("1. Download database Docker file")
@@ -67,6 +68,7 @@ def main():
 
             else:
                 print("Incorrect Choice.")
+
 
 if __name__ == "__main__":
     main()

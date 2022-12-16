@@ -14,6 +14,9 @@ class RandomForestRunner:
         self.connection = connection
     def rforest(self, races, upcoming):
         """The random forest model builder"""
+
+        predictions = []
+
         try:
             for i in range(1, 8):
 
@@ -79,4 +82,3 @@ class RandomForestRunner:
 
         except Exception as exc:
             print(exc)
-
