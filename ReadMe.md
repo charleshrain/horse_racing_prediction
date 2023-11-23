@@ -1,4 +1,6 @@
-This app predicts the outcome of future v75 (https://www.atg.se/spel/V75) trotting races, using a hyper-parameter tuned random forest model built on historical race data.  Not currently updated because the data site keeps changing tags, therefore making scraping harder.
+This app predicts the outcome of future v75 (https://www.atg.se/spel/V75) trotting races, using a hyper-parameter tuned random forest model built on historical race data.  
+
+Not currently updated because the data site keeps changing tags, therefore making scraping harder.
 
 Instructions: <br />
 Install dependencies:   <br />
